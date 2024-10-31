@@ -1,15 +1,13 @@
-import fs from 'fs';
-import path from 'path';
-import { Job } from '../types/job.type';
+import fs from "fs";
+import path from "path";
+import { Job } from "../types/job.type";
 
-const jobsFilePath = path.resolve(__dirname, '../data/jobs.json');
+const jobsFilePath = path.resolve(__dirname, "../data/jobs.json");
 
 export const readJobs = (): Job[] => {
   try {
-    
-    const data = JSON.parse(fs.readFileSync(jobsFilePath, 'utf8'));
+    const data = JSON.parse(fs.readFileSync(jobsFilePath, "utf8"));
     return data || [];
-
   } catch (error: unknown) {
     throw new Error(`Failed to read jobs: ${(error as Error).message}`);
   }
@@ -17,4 +15,9 @@ export const readJobs = (): Job[] => {
 
 export const writeJobs = (data: Job[]) => {
   fs.writeFileSync(jobsFilePath, JSON.stringify(data, null, 2));
+};
+
+export const generateUniqueId = () => {
+  const currentTimestamp = Date.now();
+  return (currentTimestamp % 100000).toString();
 };

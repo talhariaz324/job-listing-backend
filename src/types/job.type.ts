@@ -1,7 +1,7 @@
-export type JobStatus = 'pending' | 'resolved' | 'failed';
+export type JobStatus = "pending" | "resolved" | "failed";
 
 export interface Job {
-  id: number;
+  id: string;
   status: JobStatus;
-  result: string | null;
+  result?: string | null;
 }
