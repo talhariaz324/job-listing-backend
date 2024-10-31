@@ -1,12 +1,12 @@
 # Job Management API with Unsplash Integration
 
-This project allows users to create jobs that fetch images from Unsplash. If the image is successfully fetched, the job is marked as "resolved"; otherwise, the job is stored as "pending".
+This project enables users to create jobs to retrieve images from Unsplash. When an image is successfully retrieved, the job status is updated to "resolved"; if unsuccessful, the job remains "pending".
 
 ## Features
 
-- Create jobs that attempt to fetch an image from Unsplash.
-- Jobs are either resolved with an image URL or stored as pending if an image cannot be fetched.
-- JSON file used as a data store for jobs.
+- Create jobs to fetch images from Unsplash.
+- Jobs return an image URL if successful; otherwise, they remain pending.
+- Uses a JSON file as the data store for job statuses.
 
 ## Requirements
 
@@ -18,8 +18,8 @@ This project allows users to create jobs that fetch images from Unsplash. If the
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
+git clone https://github.com/talhariaz324/calo-backend.git
+cd job-listing-backend
 ```
 
 ### 2. Create Environment File
@@ -42,13 +42,13 @@ npm run dev
 
 ### POST `/api/jobs`
 
-- **Description**: Create a new job that attempts to fetch a random image from Unsplash in the food category.
+- **Description**: Creates a new job to fetch a random image from Unsplash’s food category.
 - **Response**:
-  - If successful, returns the job ID.
+  - On success, returns the job ID.
 
 ### GET `/api/jobs`
 
-- **Description**: Fetch a list of all jobs with their statuses.
+- **Description**: Retrieves a list of all jobs with their statuses.
 - **Response**:
   ```json
   [
@@ -65,7 +65,7 @@ npm run dev
 
 ### GET `/api/jobs/:id`
 
-- **Description**: Fetch a job by its ID with its status.
+- **Description**: Retrieves the status and result of a job by its ID.
 - **Response**:
   ```json
   {
