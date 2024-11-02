@@ -74,3 +74,15 @@ npm run dev
     "result": "https://unsplash.com/image-url"
   }
   ```
+
+## Time Allocation
+
+The following time allocations were made for the development of the backend components of the project:
+
+- **Websockets and Internet Connection Management**: 
+  - **Duration**: 2-3 hours
+  - **Description**: Set up WebSocket server to handle real-time communication with clients, ensuring robust handling of connection events and potential disconnections using queue and retry mechanism.
+
+- **Backend APIs and Persistent Data Storage**: 
+  - **Duration**: 7-8 hours
+  - **Description**: Developed RESTful APIs to manage job creation and retrieval, and implemented persistent data storage using JSON files to maintain job statuses and results.

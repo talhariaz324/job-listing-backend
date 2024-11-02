@@ -1,12 +1,17 @@
 import axios from "axios";
 import { Job } from "../types/job.type";
 import { readJobs, writeJobs } from "./helper";
+import {  WebSocket } from 'ws';
 
-export const processJob = async (newJob: Job, jobs: Job[]) => {
+import { wss } from "../server"; 
+
+const retryQueue: Job[] = [];
+const retryInterval = 1 * 60 * 1000; 
+
+export const processJob = async (newJob: Job) => {
   const delay = Math.floor(Math.random() * (300 - 5 + 1) + 5) * 1000;
   setTimeout(async () => {
     try {
-      // Get fresh copy of jobs before updating
       const currentJobs = readJobs();
       const jobIndex = currentJobs.findIndex((job) => job.id === newJob.id);
 
@@ -22,14 +27,32 @@ export const processJob = async (newJob: Job, jobs: Job[]) => {
           },
         }
       );
-      // Update the specific job in the fresh copy
+
       currentJobs[jobIndex].status = "resolved";
       currentJobs[jobIndex].result = response.data.urls.full;
-
-      // Write the updated jobs back to file
       writeJobs(currentJobs);
+
+      wss.clients.forEach((client: WebSocket) => {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send(JSON.stringify({ job: currentJobs[jobIndex] }));
+        }
+      });
     } catch (error) {
-      throw new Error("Failed to process job");
+      retryQueue.push(newJob);
     }
   }, delay);
 };
+
+const processRetryQueue = () => {
+  setInterval(async () => {
+    if (retryQueue.length > 0) {
+      const jobToRetry = retryQueue.shift();
+      if (jobToRetry) {
+        await processJob(jobToRetry); // Reprocess the job
+      }
+    }
+  }, retryInterval);
+};
+
+// Start processing the retry queue
+processRetryQueue();

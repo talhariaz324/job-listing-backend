@@ -11,7 +11,7 @@ const create = async () => {
   writeJobs(jobs);
 
   // Process job asynchronously
-  processJob(newJob, jobs);
+  processJob(newJob);
 
   return { jobId };
 };
