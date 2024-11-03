@@ -29,13 +29,13 @@ Create a `.env` file in the root directory of the project based on the format pr
 ### 3. Install Dependencies
 
 ```bash
-npm install
+yarn install
 ```
 
 ### 4. Running the Project
 
 ```bash
-npm run dev
+yarn dev
 ```
 
 ## API Endpoints
